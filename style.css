@@ -1,0 +1,234 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111111;
+  overflow: hidden;
+  height: 100vh;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  user-select: none;
+  cursor: default;
+}
+
+#grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* SIDEBAR */
+#sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100%;
+  background: rgba(25, 25, 25, 0.96);
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+#sidebar.collapsed {
+  transform: translateX(-240px);
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-header h2 {
+  color: #f0f0f0;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+
+#toggle-sidebar {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #ccc;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+#toggle-sidebar:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.items-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  flex-grow: 1;
+  align-content: start;
+}
+
+.item-preview {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.item-preview:hover {
+  transform: scale(1.05);
+}
+
+.item-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* WORLD OBJECT */
+.world-object {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  cursor: grab;
+  will-change: transform;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.world-object img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.world-object:active {
+  cursor: grabbing;
+}
+
+.world-object[data-id="white"] {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 4px;
+}
+
+/* КОНТЕКСТНОЕ МЕНЮ */
+.context-menu {
+  position: absolute;
+  background: #222;
+  border: 1px solid #444;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  min-width: 140px;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.context-menu.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.context-menu-title {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #aaa;
+  border-bottom: 1px solid #333;
+  font-weight: 500;
+  text-align: left;
+}
+
+.context-menu-item {
+  padding: 10px 16px;
+  color: #eee;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease;
+}
+
+.context-menu-item:hover {
+  background: #333;
+}
+
+/* КНОПКА ОТКРЫТИЯ ПАНЕЛИ */
+#open-sidebar-btn {
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  width: 28px;
+  height: 28px;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #ddd;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 25;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+#open-sidebar-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === ВЫДЕЛЕНИЕ ОБЛАСТИ (MARQUEE) === */
+.selection-rect {
+  position: absolute;
+  background: rgba(150, 150, 150, 0.2);
+  border: 1px solid rgba(200, 200, 200, 0.6);
+  border-radius: 15px;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 0.50s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.selection-rect.visible {
+  opacity: 1;
+}
