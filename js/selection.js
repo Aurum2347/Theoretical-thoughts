@@ -14,15 +14,16 @@ function createSelectionRect() {
 }
 
 export function initSelection() {
-  // Начало выделения (в фазе capture)
   document.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
-    if (isDraggingActive()) return; // Не мешаем перетаскиванию
+    if (isDraggingActive()) return;
+    window.dispatchEvent(new CustomEvent('closeContextMenu'));
     
     const clickedOnObject = e.target.closest('.world-object');
     const clickedOnUI = e.target.closest('#sidebar') || 
                          e.target.closest('#open-sidebar-btn') ||
-                         e.target.closest('.context-menu');
+                         e.target.closest('#crafting-panel') ||
+                         e.target.closest('#open-crafting-btn');
     
     if (!clickedOnObject && !clickedOnUI) {
       e.preventDefault();
@@ -33,17 +34,14 @@ export function initSelection() {
     }
   }, { capture: true });
   
-  // Обновление прямоугольника
   document.addEventListener('mousemove', (e) => {
     if (!isSelecting || !selectionRect) return;
-    
     const x = e.clientX;
     const y = e.clientY;
     const left = Math.min(selectionStartX, x);
     const top = Math.min(selectionStartY, y);
     const width = Math.abs(x - selectionStartX);
     const height = Math.abs(y - selectionStartY);
-    
     selectionRect.style.left = `${left}px`;
     selectionRect.style.top = `${top}px`;
     selectionRect.style.width = `${width}px`;
@@ -51,13 +49,11 @@ export function initSelection() {
     selectionRect.classList.add('visible');
   });
   
-  // Завершение выделения
   document.addEventListener('mouseup', () => {
     if (isSelecting) {
       isSelecting = false;
       if (selectionRect) {
         selectionRect.classList.remove('visible');
-        // Здесь позже добавим логику выделения объектов
       }
     }
   });

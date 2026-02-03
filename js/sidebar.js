@@ -1,6 +1,5 @@
 import { ITEMS } from './items.js';
 
-// Инициализация левой панели
 export function initSidebar() {
   const container = document.querySelector('.items-container');
   if (!container) return;
@@ -19,9 +18,8 @@ export function initSidebar() {
       preview.style.background = 'rgba(255,255,255,0.85)';
     }
     
-    // Генерируем событие для dragDrop.js
     preview.addEventListener('mousedown', (e) => {
-      if (e.button !== 0) return; // Только ЛКМ
+      if (e.button !== 0) return;
       e.preventDefault();
       
       window.dispatchEvent(new CustomEvent('spawnObject', {

@@ -1,4 +1,3 @@
-// Предметы — единый источник истины
 export const ITEMS = [
   { id: 'white', name: 'Белый квадрат' },
   { id: 'apple.png', name: 'Яблоко' },

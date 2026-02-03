@@ -7,7 +7,6 @@ export function initContextMenu() {
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     
-    // Закрываем предыдущее меню
     if (contextMenu) {
       contextMenu.classList.remove('visible');
       setTimeout(() => {
@@ -19,7 +18,6 @@ export function initContextMenu() {
     const target = e.target.closest('.world-object');
     if (!target) return;
     
-    // Останавливаем перетаскивание при ПКМ
     stopDragging();
     
     const id = target.dataset.id;
@@ -40,16 +38,21 @@ export function initContextMenu() {
       if (contextMenu) contextMenu.classList.add('visible');
     }, 10);
     
-    // Обработчик клика по меню
     const menuClickHandler = (ev) => {
       if (ev.target.dataset.action === 'delete') {
-        target.remove();
+        // Просто добавляем класс для анимации
+        target.classList.add('deleting');
+        
+        setTimeout(() => {
+          if (target.parentNode) {
+            target.remove();
+          }
+        }, 250);
       }
       closeMenu();
       document.removeEventListener('click', documentClickHandler);
     };
     
-    // Закрытие при клике вне меню
     const documentClickHandler = (ev) => {
       if (!contextMenu || contextMenu.contains(ev.target)) return;
       closeMenu();
@@ -69,7 +72,6 @@ export function initContextMenu() {
     contextMenu.addEventListener('click', menuClickHandler);
     document.addEventListener('click', documentClickHandler);
     
-    // Закрытие при скролле
     window.addEventListener('scroll', closeMenu, { once: true });
   });
 }
