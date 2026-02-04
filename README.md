@@ -2,7 +2,9 @@
 
 Визуализация механик Майнкрафта в теории. Показываю как работают системы игры через схемы и симуляции.
 
-<img width="1018" height="595" alt="image" src="https://github.com/user-attachments/assets/6a2c2a6e-b88e-41bd-b955-175392066d06" />
+<img width="1920" height="911" alt="image" src="https://github.com/user-attachments/assets/3d0506cd-912d-4f6c-b0a0-04a3b6c3a47c" />
+
+<img width="1920" height="911" alt="image" src="https://github.com/user-attachments/assets/086f1916-097c-4e7e-9ec9-6c1351a60556" />
 
 
 ## Что будет
