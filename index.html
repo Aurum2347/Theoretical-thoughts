@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theoretical Thoughts</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="grid"></div>
+  
+  <!-- Левая панель -->
+  <div id="sidebar">
+    <div class="sidebar-header">
+      <h2>Инвентарь</h2>
+      <button id="toggle-sidebar">◀</button>
+    </div>
+    <div class="items-container"></div>
+  </div>
+  
+  <!-- Правая панель -->
+  <div id="crafting-panel">
+    <div class="crafting-header">
+      <h2>Крафтинг</h2>
+      <button id="toggle-crafting">▶</button>
+    </div>
+    <div class="crafting-grid">
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+      <div class="crafting-cell"></div>
+    </div>
+    <div class="crafting-separator"></div>
+    <div class="crafting-result">
+      <div class="result-title">Результат</div>
+      <div class="result-slot">
+        <div class="result-placeholder">Положите что-нибудь чтобы скрафтить</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Кнопки открытия -->
+  <button id="open-sidebar-btn">▶</button>
+  <button id="open-crafting-btn">◀</button>
+
+  <button id="trash-bin" class="trash-bin">
+    <img src="assets/trash.png" alt="Удалить всё">
+  </button>
+  <script src="lib/marked.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
